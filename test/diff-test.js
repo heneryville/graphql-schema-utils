@@ -321,6 +321,8 @@ describe('GraphQLSchema', function () {
             const b = buildSchema(schema2);
             const diffs = a.diff(b);
             assert.equal(diffs.length, 4);
+            let expected =  new GraphQLDiff(a, b, DiffType.FieldDescriptionDiff, 'Description diff on field Query.FieldOption. this schema: `"Query for FieldOptions"` vs. other schema: `"FieldOption Query"`.', true);
+            let actual = diffs[0];
             assert(diffExists(diffs, new GraphQLDiff(a, b, DiffType.FieldDescriptionDiff, 'Description diff on field Query.FieldOption. this schema: `"Query for FieldOptions"` vs. other schema: `"FieldOption Query"`.', true)));
             assert(diffExists(diffs, new GraphQLDiff(a, b, DiffType.FieldDescriptionDiff, 'Description diff on field CmsItem.contentId. this schema: `"Content ID"` vs. other schema: `""`.', true)));
             assert(diffExists(diffs, new GraphQLDiff(a, b, DiffType.TypeDescriptionDiff, 'Description diff on type CmsItem. this schema: `"Base type for CMS content"` vs. other schema: `"Base CMS type"`.', true)));
