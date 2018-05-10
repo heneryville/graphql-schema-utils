@@ -53,15 +53,14 @@ const schema1DifferentOrder =
 
 describe('GraphQLSchema', function () {
     describe('#diff()', function () {
-        it('reports no diffs for equivalent schemas with types in different order', function (done) {
+        it('reports no diffs for equivalent schemas with types in different order', function () {
             const a = buildSchema(schema1);
             const b = buildSchema(schema1DifferentOrder);
 
             assert.deepEqual(a.diff(b), []);
-            done();
         });
 
-        it('reports diff for missing types in both this schema and other schema', function (done) {
+        it('reports diff for missing types in both this schema and other schema', function () {
             const schema2 =
                 'type Query {\n' +
                 '    Video(contentId: ID!): Video\n' +
@@ -91,10 +90,9 @@ describe('GraphQLSchema', function () {
             assert(diffExists(diffs, new GraphQLDiff(a, b, DiffType.TypeMissing, 'Type missing from other schema: `FieldOption`.', false)));
             assert(diffExists(diffs, new GraphQLDiff(a, b, DiffType.FieldMissing, 'Field missing from other schema: `Query.FieldOption(contentId: ID!): FieldOption`.', false)));
             assert(diffExists(diffs, new GraphQLDiff(a, b, DiffType.FieldMissing, 'Field missing from this schema: `Query.Video(contentId: ID!): Video`.', true)));
-            done();
         });
 
-        it('reports diff for missing fields in both types', function (done) {
+        it('reports diff for missing fields in both types', function () {
             const schema2 =
                 'type Query {\n' +
                 '    FieldOption(contentId: ID!): FieldOption\n' +
@@ -122,10 +120,9 @@ describe('GraphQLSchema', function () {
             assert.equal(diffs.length, 2);
             assert(diffExists(diffs, new GraphQLDiff(a, b, DiffType.FieldMissing, 'Field missing from other schema: `FieldOption.displayName: String`.', true)));
             assert(diffExists(diffs, new GraphQLDiff(a, b, DiffType.FieldMissing, 'Field missing from this schema: `FieldOption.newValue: String`.', false)));
-            done();
         });
 
-        it('uses custom names for "this" and "other" if passed in to options', function (done) {
+        it('uses custom names for "this" and "other" if passed in to options', function () {
             const schema2 =
                 'type Query {\n' +
                 '    FieldOption(contentId: ID!): FieldOption\n' +
@@ -153,10 +150,9 @@ describe('GraphQLSchema', function () {
             assert.equal(diffs.length, 2);
             assert(diffExists(diffs, new GraphQLDiff(a, b, DiffType.FieldMissing, 'Field missing from schema B: `FieldOption.displayName: String`.', false)));
             assert(diffExists(diffs, new GraphQLDiff(a, b, DiffType.FieldMissing, 'Field missing from schema A: `FieldOption.newValue: String`.', true)));
-            done();
         });
 
-        it('reports diff for different interface implementations', function (done) {
+        it('reports diff for different interface implementations', function () {
             const schema1 =
                 'type Query {\n' +
                 '    FieldOption(contentId: ID!): FieldOption\n' +
@@ -210,10 +206,9 @@ describe('GraphQLSchema', function () {
             const b = buildSchema(schema2);
             const diffs = a.diff(b);
             assert(diffExists(diffs, new GraphQLDiff(a, b, DiffType.InterfaceDiff, 'Interface diff on type FieldOption. this schema: `CmsItem, NewInterface` vs. other schema: `CmsItem`.', false)));
-            done();
         });
 
-        it('reports diff for different field types', function (done) {
+        it('reports diff for different field types', function () {
             const schema1 = 'type Query {\n' +
                 '    FieldOption(contentId: ID!): FieldOption\n' +
                 '}\n' +
@@ -260,10 +255,9 @@ describe('GraphQLSchema', function () {
             const b = buildSchema(schema2);
             const diffs = a.diff(b);
             assert(diffExists(diffs, new GraphQLDiff(a, b, DiffType.FieldDiff, 'Field type changed on field FieldOption.value from : `"String"` to `"Boolean!"`.', false)));
-            done();
         });
 
-        it('reports field, type, and argument description diffs', function (done) {
+        it('reports field, type, and argument description diffs', function () {
             const schema1 =
                 'type Query {\n' +
                 '    # Query for FieldOptions\n' +
@@ -327,10 +321,9 @@ describe('GraphQLSchema', function () {
             assert(diffExists(diffs, new GraphQLDiff(a, b, DiffType.FieldDescriptionDiff, 'Description diff on field CmsItem.contentId. this schema: `"Content ID"` vs. other schema: `""`.', true)));
             assert(diffExists(diffs, new GraphQLDiff(a, b, DiffType.TypeDescriptionDiff, 'Description diff on type CmsItem. this schema: `"Base type for CMS content"` vs. other schema: `"Base CMS type"`.', true)));
             assert(diffExists(diffs, new GraphQLDiff(a, b, DiffType.ArgDescriptionDiff, 'Description diff on argument Query.FieldOption(contentId). this schema: `""` vs. other schema: `"The content ID"`.', true)));
-            done();
         });
 
-        it('reports diff for different field arguments', function (done) {
+        it('reports diff for different field arguments', function () {
             const schema1 =
                 'type Query {\n' +
                 '    FieldOption(contentId: ID!): FieldOption\n' +
@@ -383,10 +376,9 @@ describe('GraphQLSchema', function () {
             assert(diffExists(diffs, new GraphQLDiff(a, b, DiffType.ArgDiff, 'Argument missing from other schema: `FieldOption.value(places: String)`.', false)));
             assert(diffExists(diffs, new GraphQLDiff(a, b, DiffType.ArgDiff, 'Argument missing from this schema: `FieldOption.displayName(caps: Boolean)`.', true)));
             assert(diffExists(diffs, new GraphQLDiff(a, b, DiffType.ArgDiff, 'Argument type diff on field FieldOption.value2. this schema: `places: String` vs. other schema: `places: ID.`', true)));
-            done();
         });
 
-        it('reports diffs in enums', function (done) {
+        it('reports diffs in enums', function () {
             const schema1 =
                 'type Query {\n' +
                 '    Color(name: String): Color\n' +
@@ -424,10 +416,9 @@ describe('GraphQLSchema', function () {
             assert(diffExists(diffs, new GraphQLDiff(a, b, DiffType.EnumDiff, 'Enum value missing from this schema: `"Color.ORANGE"`.', true)));
             assert(diffExists(diffs, new GraphQLDiff(a, b, DiffType.EnumDiff, 'Enum value missing from this schema: `"Color.BLACK"`.', true)));
             assert(diffExists(diffs, new GraphQLDiff(a, b, DiffType.EnumDiff, 'Description diff on enum value Car.HONDA. this schema: `"from Japan"` vs. other schema: `"honda"`.', true)));
-            done();
         });
 
-        it('reports diffs in union types', function (done) {
+        it('reports diffs in union types', function () {
             const schema1 =
                 'type Query {\n' +
                 '    Pet(name: String): Pet\n' +
@@ -472,10 +463,9 @@ describe('GraphQLSchema', function () {
             const b = buildSchema(schema2);
             const diffs = a.diff(b);
             assert(diffExists(diffs, new GraphQLDiff(a, b, DiffType.UnionTypeDiff, 'Difference in union type Pet. this schema: `Cat | Dog` vs. other schema: `Cat | Dog | Fish`.', false)));
-            done();
         });
 
-        it('reports diffs in input types', function (done) {
+        it('reports diffs in input types', function () {
             const schema1 =
                 'type Query {\n' +
                 '    Dog(details: PetDetails): Dog\n' +
@@ -512,10 +502,9 @@ describe('GraphQLSchema', function () {
             assert(diffExists(diffs, new GraphQLDiff(a, b, DiffType.FieldDiff, 'Field type changed on field PetDetails.weight from : `"Float"` to `"Int"`.', false)));
             assert(diffExists(diffs, new GraphQLDiff(a, b, DiffType.TypeMissing, 'Type missing from this schema: `Int`.', true)));
             assert(diffExists(diffs, new GraphQLDiff(a, b, DiffType.TypeMissing, 'Type missing from other schema: `Float`.', false)));
-            done();
         });
 
-        it('reports diffs on mutation types', function (done) {
+        it('reports diffs on mutation types', function () {
             const schema1 =
                 'type Query {\n' +
                 '    Dogs: [Dog]\n' +
@@ -548,10 +537,9 @@ describe('GraphQLSchema', function () {
             const diffs = a.diff(b);
             assert(diffExists(diffs, new GraphQLDiff(a, b, DiffType.FieldMissing, 'Field missing from other schema: `Mutation.addDog(name: String): Dog`.', false)));
             assert(diffExists(diffs, new GraphQLDiff(a, b, DiffType.ArgDiff, 'Argument missing from other schema: `Mutation.giveBone(bone: String)`.', false)));
-            done();
         });
 
-        it('reports diff in list argument', function (done) {
+        it('reports diff in list argument', function () {
             const schema1 =
                 'type Query {\n' +
                 '    Dogs(test: [String]): [Dog]\n' +
@@ -576,10 +564,9 @@ describe('GraphQLSchema', function () {
             const b = buildSchema(schema2);
             const diffs = a.diff(b);
             assert(diffExists(diffs, new GraphQLDiff(a, b, DiffType.ArgDiff, 'Argument missing from other schema: `Query.Dogs(test: [String])`.', false)));
-            done();
         });
 
-        it('reports diff for different field types when nested GraphQLNonNull and GraphQLList', function (done) {
+        it('reports diff for different field types when nested GraphQLNonNull and GraphQLList', function () {
             const schema1 =
                 'type Query {\n' +
                 '    myTags: Tag!\n' +
@@ -608,7 +595,6 @@ describe('GraphQLSchema', function () {
             assert(diffExists(diffs, new GraphQLDiff(a, b, DiffType.FieldDiff, 'Field type changed on field Tag.listNotNullString from : `"[String!]"` to `"String!"`.', false)));
             assert(diffExists(diffs, new GraphQLDiff(a, b, DiffType.FieldDiff, 'Field type changed on field Tag.notNullListNotNullString from : `"[String!]!"` to `"[String!]"`.', false)));
             assert(diffExists(diffs, new GraphQLDiff(a, b, DiffType.FieldDiff, 'Field type changed on field Tag.listNotNullListNotNullString from : `"[[String!]!]"` to `"[String!]!"`.', false)));
-            done();
         });
 
         function diffExists(diffs, expectedDiff) {
