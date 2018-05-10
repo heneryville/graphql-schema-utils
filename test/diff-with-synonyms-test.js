@@ -44,7 +44,6 @@ describe('GraphQLSchema', function () {
               const a = buildSchema('type Query { op: typeA } type typeA { a: String  }');
               const b = buildSchema('type Query { op: typeB } type typeB { a: String  }');
               let diff = a.diff(b, {synonyms: [{thisType: 'typeA', otherType: 'typeB'}]});
-              console.log(diff.map(x => x.description));
               assert.equal(diff.length, 0);
             });
 

@@ -21,7 +21,8 @@
   },
   "homepage": "https://github.com/jarwol/graphql-schema-utils#readme",
   "dependencies": {
-    "lodash.clonedeep": "^4.5.0"
+    "lodash.clonedeep": "^4.5.0",
+    "lodash.find": "^4.6.0"
   },
   "peerDependencies": {
     "graphql": "^0.8.2"
